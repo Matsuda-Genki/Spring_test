@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::title}, ~{::body/content()})}">
+<head>
+    <meta charset="UTF-8">
+    <title>トップページ</title>
+</head>
+
+<body>
+    <main>
+        <section id="sale-items">
+            <h2>今月のセール</h2>
+            <div class="sale-list">
+                <div th:each="item : ${salesItems}" class="product-item">
+					<a th:href="@{/product/details/{id}(id=${item.saleItemId})}">
+						<div class="product-card">
+							<img th:src="@{${item.salesImgPath}}" th:alt="'Sale Image'" width="450" height="300">
+							<p th:text="${item.saleName}" class="product-details"></p>
+						</div>
+					</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>

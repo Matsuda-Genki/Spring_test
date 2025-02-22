@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:replace="${title}">title</title>
+</head>
+
+<body>
+	<header id="header" th:fragment="header">
+	    <nav>
+	        <ul>
+	            <li><a th:href="@{/}"><img th:src="@{/images/logo.png}" alt="Logo" class="logo"></a></li>
+				
+				<!-- 検索フォーム -->
+				<li><form th:action="@{/products}" method="get">
+					
+						<!-- 商品名検索 -->
+						<input type="text" name="productName" th:value="${productName}" placeholder="商品名">
+						
+						<!-- カテゴリー選択 -->
+						<select name="categoryId">
+							<option value="">すべてのカテゴリー</option>
+							<option th:each="category : ${categories}" 
+								th:value="${category.categoryId}" 
+								th:text="${category.categoryName}"
+								th:selected="${category.categoryId == categoryId}">
+							</option>
+						</select>
+						
+						<!-- 検索ボタン -->
+						<button type="submit">検索</button>
+					</form>
+				</li>
+				
+				<!-- マイページボタン -->
+				<li>
+					<a th:href="@{/mypage}" class="mypage-button">マイページ</a>
+				</li>
+				
+				<!-- ユーザー情報 -->
+				<li sec:authorize="isAuthenticated()" class="user-name">
+					<span>ユーザー名：</span><span sec:authentication="name"></span>
+				</li>
+
+				<!--ログアウト-->
+				<li sec:authorize="isAuthenticated()">	
+	            	<a th:href="@{/logout}">ログアウト</a>
+				</li>
+	        </ul>
+	    </nav>
+	</header>
+</body>
+
+</html>

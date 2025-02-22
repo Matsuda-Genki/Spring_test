@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::title}, ~{::body/content()})}">
+<head>
+    <meta charset="UTF-8">
+    <title>商品一覧</title>
+</head>
+
+<body>
+<main>
+    <h1>商品一覧</h1>
+    <div class="product-list">
+        <div th:each="product : ${products}" class="product-item">
+            <a th:href="@{/product/details/{id}(id=${product.productId})}">
+				<div class="product-card">
+	                <img th:src="@{${product.productImgPath}}" th:alt="商品画像" width="150" class="product-image">
+					<div class="product-details">
+						<p th:text="${product.productName}">商品名</p>
+						<p th:text="${product.companyName}">メーカー名</p>
+						<p th:text="'税抜価格: ' + ${product.price} + '円'">税抜価格</p>
+						<p th:text="'税込価格: ' + ${product.includeTax} + '円'">税込価格</p>
+					</div>
+				</div>
+            </a>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

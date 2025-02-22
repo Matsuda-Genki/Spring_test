@@ -1,0 +1,297 @@
+@charset "UTF-8";
+body, html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+header {
+	background-color: lightblue;
+	padding: 10px 0;
+}
+
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items:  center;
+}
+
+nav ul li {
+	padding: 0 20px;
+}
+
+nav ul li:first-child{
+	margin-left: 0;
+	margin-right: auto;
+}
+
+nav ul li a img.logo {
+	height: 40px;
+	width: auto;
+	vertical-align: middle;
+}
+
+nav ul li:nth-child(n+2) {
+	margin-left: 10px;
+}
+
+nav ul li form {
+	display: flex;
+	gap: 8px;
+	height: 100%;
+	align-items: center;
+}
+
+nav ul li input[type="text"] {
+    width: 300px;
+    height: 20px;
+    padding: 8px 12px;
+    border: 1px solid whitesmoke;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+nav ul li select {
+	width: 300px;
+	height: 38px;
+	padding: 8px 12px;
+	border: 1px solid whitesmoke;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+nav ul li form button[type="submit"] {
+    background-color: darkcyan;
+    color: white;
+	width: 100px;
+    border: none;
+    padding: 0 20px;
+    height: 38px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+nav ul li button :hover {
+    opacity: 0.5;
+}
+
+.mypage-button {
+	
+    background-color: chocolate;
+    color: white !important;
+    text-decoration: none;
+    padding: 0 20px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 40px; /* 検索フォームと同高 */
+    line-height: 1.2;
+    font-size: 12px;
+    font-weight: bold;
+	text-align: center;
+}
+
+footer {
+	background-color: lightblue;
+	margin-top: auto;
+	padding: 5px 0;
+}
+
+footer p {
+	text-align: right;
+	margin-right: 10px;
+}
+
+main {
+	text-align: center;
+	margin: 20px;
+}
+
+h1 {
+	text-align: center;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* 商品同士の間隔 */
+}
+
+.product-item {
+    width: 250px; /* 商品カードの幅 */
+    display: flex;
+    justify-content: center;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.05); /* ホバー時にカードを少し大きく */
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.product-details {
+    padding: 15px;
+    text-align: left;
+}
+
+.product-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.product-details p:first-child {
+    font-weight: bold;
+}
+
+.product-details p:nth-child(2) {
+    color: #888;
+}
+
+@media (max-width: 768px) {
+    .product-list {
+        gap: 15px;
+    }
+    .product-item {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-item {
+        width: 160px;
+    }
+}
+
+.sale-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 220px; /* 商品同士の間隔 */
+	object-fit: cover;
+}
+
+/* マイページ専用スタイル */
+.container{
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+}
+
+.update-container{
+	width: 480px;
+	padding: 20px;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+h2 {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.success-message {
+    color: #28a745;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #d4edda;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+.button-container {
+    display: flex;
+	justify-content: center;
+    gap: 15px;
+    margin: 25px;
+}
+.update-btn {
+    background-color: chocolate;
+    color: white;
+    text-decoration: none;
+    padding: 0 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background-color: #5a6268;
+}
+
+.register-btn {
+	background-color: chocolate;
+}
+.form-group {
+	margin-bottom: 15px;
+	text-align: left;
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+input {
+	width: 95%;
+	padding: 10px;
+	border: 1px solid #ccc;
+}
+
+.button-container {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
