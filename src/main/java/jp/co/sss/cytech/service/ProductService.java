@@ -1,6 +1,7 @@
 package jp.co.sss.cytech.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +9,54 @@ import org.springframework.stereotype.Service;
 
 import jp.co.sss.cytech.DTO.ProductDTO;
 import jp.co.sss.cytech.entity.ProductEntity;
+import jp.co.sss.cytech.entity.SalesItemEntity;
 import jp.co.sss.cytech.repository.ProductRepository;
 
 @Service
 public class ProductService {
 
+	private final ProductRepository productRepository;
+	private final SalesItemService salesItemService;
+	
     @Autowired
-    private ProductRepository productRepository;
+    public ProductService(
+    		ProductRepository productRepository,
+    		SalesItemService salesItemService) {
+        this.productRepository = productRepository;
+        this.salesItemService = salesItemService;
+    }
+
+    public Optional<ProductDTO> getProductById(Integer id) {
+        return productRepository.findById(id)
+                .map(entity -> {
+                	ProductDTO dto = convertToDTO(entity);
     
+                // セール情報取得
+                List<SalesItemEntity> activeSales = 
+                	salesItemService.getCurrentSalesForProduct(entity.getProductId());
+                    
+                // 有効なセールがある場合のみ割引適用
+                if (!activeSales.isEmpty()) {
+                	SalesItemEntity sale = activeSales.get(0);
+                    applyDiscount(dto, sale.getDiscountRate());
+                    }
+                    
+                    return dto;
+                });
+    }
+    
+    // 割引計算メソッド
+    private void applyDiscount(ProductDTO dto, Integer discountRate) {
+        dto.setDiscountRate(discountRate);
+        dto.setDiscountedPrice(calculateDiscountedPrice(dto.getPrice(), discountRate));
+        dto.setDiscountedIncludeTax(calculateDiscountedPrice(dto.getIncludeTax(), discountRate));
+    }
+
+    // 割引価格計算ヘルパー
+    private Integer calculateDiscountedPrice(Integer originalPrice, Integer discountRate) {
+        return (originalPrice * (100 - discountRate)) / 100;
+    }
+                	
     // エンティティをDTOに変換するメソッド
     private ProductDTO convertToDTO(ProductEntity productEntity) {
         return new ProductDTO(
@@ -25,7 +66,9 @@ public class ProductService {
             productEntity.getPrice(),
             productEntity.getIncludeTax(),
             productEntity.getProductImgPath(),
-            productEntity.getCategory().getCategoryId()
+            productEntity.getCategory().getCategoryId(),
+            productEntity.getCompany().getCompanyId(),
+            productEntity.getCompany().getCompanyName()
         );
     }
 

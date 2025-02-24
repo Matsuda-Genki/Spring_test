@@ -9,17 +9,28 @@
     <main>
         <section id="sale-items">
             <h2>今月のセール</h2>
-            <div class="sale-list">
-                <div th:each="item : ${salesItems}" class="product-item">
-					<a th:href="@{/product/details/{id}(id=${item.saleItemId})}">
+            <div class="product-list">
+                <div th:each="sales : ${activeSales}" class="product-item">
+					<a th:href="@{/details/{id}(id=${sales.product.productId})}">
 						<div class="product-card">
-							<img th:src="@{${item.salesImgPath}}" th:alt="'Sale Image'" width="450" height="300">
-							<p th:text="${item.saleName}" class="product-details"></p>
+							<img th:src="@{${sales.salesImgPath}}" th:alt="'Sale Image'" width="450" height="300" class="product-image">
+							<p th:text="${sales.saleName}" class="product-details"></p>
 						</div>
 					</a>
                 </div>
             </div>
+			<div th:if="${activeSales.isEmpty()}">
+			    <p style="color: red;">表示できるセール情報がありません</p>
+			</div>
+
+			<div th:each="category : ${categories}">
+			    <p>[[${category.categoryName}]]</p>
+			</div>
+			
         </section>
+		<div th:each="item : ${activeSales}">
+		    <p>[[${item.saleItemId}]] | [[${item.salesImgPath}]]</p>
+		</div>
     </main>
 
 </body>

@@ -1,6 +1,7 @@
 package jp.co.sss.cytech.service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,17 +18,28 @@ public class SalesItemService {
     }
 
     public List<SalesItemEntity> getCurrentSalesItems() {
+    	System.out.println("✅ [Step1] getCurrentSalesItems() 開始");
         LocalDate today = LocalDate.now();
-        System.out.println("📅 現在の日付: " + today);  // デバッグ
+        System.out.println("✅ [Step2] 今日の日付: " + today);
         
-        List<SalesItemEntity> salesItems = salesItemRepository.findActiveSalesItems(today);
+        // 明示的な初期化（Null防止）
+        List<SalesItemEntity> salesItems = Collections.emptyList();
         
-        // 取得データの確認
-        System.out.println("🔍 取得したセール品の数: " + salesItems.size());
-        for (SalesItemEntity item : salesItems) {
-            System.out.println("🛒 セール品: " + item.getSaleItemId() + ", 割引率: " + item.getDiscountRate() + "%");
+        try {
+        	salesItems = salesItemRepository.findActiveSalesItems(today);
+        } catch (Exception e) {
+        	System.out.println("🚨 エラー: " + e.getMessage());
         }
-        
+        	
+        	System.out.println("✅ [Step3] クエリ結果サイズ: " + salesItems.size());
+        	
         return salesItems;
+
+    }
+    
+    // 特定商品の現在有効なセールを取得
+    public List<SalesItemEntity> getCurrentSalesForProduct(Integer productId) {
+        LocalDate today = LocalDate.now();
+        return salesItemRepository.findActiveSalesByProductId(productId, today);
     }
 }

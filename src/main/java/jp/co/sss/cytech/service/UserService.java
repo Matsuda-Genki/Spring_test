@@ -1,5 +1,7 @@
 package jp.co.sss.cytech.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,4 +50,24 @@ public class UserService {
         entity.setPhone(dto.getPhone());
         entity.setUserAddress(dto.getUserAddress());
     }
+    
+    //ReviwSrrvice連携
+    public UserEntity getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+    
+    public String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new UsernameNotFoundException("ユーザーが認証されていません");
+        }
+        
+        // ユーザー名でデータベースから最新情報を取得
+        return userRepository.findByUsername(authentication.getName())
+                .map(UserEntity::getEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("ユーザーが見つかりません"));
+    }
+    
 }

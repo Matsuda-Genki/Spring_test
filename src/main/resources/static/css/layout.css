@@ -78,8 +78,8 @@ nav ul li form button[type="submit"] {
     transition: opacity 0.3s;
 }
 
-nav ul li button :hover {
-    opacity: 0.5;
+nav ul li form button[type="submit"] :hover {
+    background-color: #2980b9; 
 }
 
 .mypage-button {
@@ -88,6 +88,7 @@ nav ul li button :hover {
     color: white !important;
     text-decoration: none;
     padding: 0 20px;
+	min-width: 80px;
     height: 38px;
     border-radius: 10px;
     border: none;
@@ -95,6 +96,10 @@ nav ul li button :hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.mypage-button:hover {
+    background-color: #2980b9; 
 }
 
 .user-name {
@@ -132,7 +137,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px; /* 商品同士の間隔 */
+    gap: 250px; /* 商品同士の間隔 */
 }
 
 .product-item {
@@ -145,7 +150,8 @@ h1 {
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
-    width: 100%;
+    width: 450px;
+	height: 450px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     transition: transform 0.3s ease;
@@ -156,9 +162,9 @@ h1 {
 }
 
 .product-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
+	padding-top: 20px;
+    width: 450px;
+    height: 300px;
 }
 
 .product-details {
@@ -195,6 +201,10 @@ h1 {
     }
 }
 
+.product-section {
+	padding-bottom: 15px;	
+}
+
 .sale-list {
     display: flex;
     flex-wrap: wrap;
@@ -203,6 +213,12 @@ h1 {
 	object-fit: cover;
 }
 
+.discount-badge {
+	text-align: center;
+	padding-bottom: 10px;
+	color: red;
+	}
+	
 /* マイページ専用スタイル */
 .container{
 	display: flex;
@@ -295,3 +311,258 @@ input {
 	margin-top: 20px;
 }
 
+
+
+/* Flexboxレイアウト */
+.detail-content {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+	width:800px;
+	}
+
+.image-section {
+	display: flex;
+}
+
+.info-content {
+	width:300px;
+}
+
+/* 全体コンテナ */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* 商品情報セクション */
+.product-info {
+    align-items: center;
+	width: 300px;
+}
+
+.detail-table {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 15px;
+    border-bottom: 0.5px solid #ecf0f1;
+}
+
+.detail-table th {
+    width: 30%;
+    text-align: left;
+    color: #34495e;
+}
+
+.action-buttons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-btn {
+    background-color: #95a5a6;
+    color: white !important; 
+	text-decoration: none;
+	padding: 0 20px;
+	height: 38px;
+	border-radius: 10px;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.back-btn:hover {
+    background-color: #7f8c8d;
+}
+
+.tanpin-btn {
+	background-color: chocolate;
+	color: white !important;
+	text-decoration: none;
+	padding: 0 20px;
+	height: 38px;
+	border-radius: 10px;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.tanpin-btn:hover {
+    background-color: #2980b9; 
+}
+
+/*レビューセクション*/ 
+.review-container { 
+	flex-shrink: 0;
+	margin:20px 20px;
+	margin-top : 20px; /*商品詳細との間隔調整*/ 
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	width: 760px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+} 
+
+.review-title { 
+	color :#2d3436; 
+	font-size :1.5rem; 
+	margin-bottom :10px; 
+} 
+
+.review-card { 
+	padding :1.0rem; 
+	margin:10px auto;; 
+	background-color :#f8f9fa;  
+	width: 700px;
+	justify-content: center;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+} 
+
+.review-header { 
+	display :flex; 
+	justify-content :space-between; 
+	margin-bottom :1rem; 
+} 
+
+.user-name { 
+	color :#3498db; 
+	font-weight :600; 
+} 
+
+.post-date { 
+	color:#636e72;  
+	font-size :0.9rem;  
+}  
+
+.star-rating {
+    --star-size: 24px;
+    --star-color: #ddd;
+    --active-color: rgb(255, 128, 0); /* 黄色 */
+    display: inline-block;
+    font-size: var(--star-size);
+    line-height: 1;
+}
+
+.stars {
+    position: relative;
+    display: inline-block;
+}
+
+.stars::before {
+    content: "★★★★★";
+    color: var(--star-color);
+}
+
+.stars::after {
+    content: "★★★★★";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(var(--rating) * 20%);
+    overflow: hidden;
+    color: var(--active-color);
+}
+
+.comment {  
+	color:#2d3436;  
+	line-height :1.6;  
+}  
+
+.no-reviews {  
+	text-align :center;  
+	color:#636e72;  
+	padding :2rem;  
+}
+
+.review-success {
+    border-radius: 4px;
+    margin-left: 20px;
+}
+
+.review-flex {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+	padding-bottom: 10px;
+   }
+   
+.review-btn {
+	background-color: chocolate;
+	color: white !important;
+    text-decoration: none;
+    padding: 10px 20px;
+	margin:0 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	}
+
+.review-btn:hover {
+    background-color: #2980b9; 
+}
+.review-cards {
+	margin:10px auto;
+}
+   /* メインコンテンツとサイドバーのレイアウト */
+
+.main-container {
+	display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 20px auto; /* 上下マージンと自動左右マージンで中央寄せ */
+    padding: 0 20px;
+}
+
+.product-content {
+	display: flex;
+	gap: 30px;
+}
+
+.product-detail-container {
+	margin: 20px 20px;
+	padding-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 800px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+ /* サイドバースタイル */
+ .detail-sidebar {
+	width: 300px; /* サイドバーの固定幅 */
+	flex-shrink: 0; /* 縮小を防止 */
+ 	background: #f8f9fa;
+    margin: 20px;
+	padding: 0 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}

@@ -10,9 +10,9 @@
     <h1>商品一覧</h1>
     <div class="product-list">
         <div th:each="product : ${products}" class="product-item">
-            <a th:href="@{/product/details/{id}(id=${product.productId})}">
+            <a th:href="@{/details/{id}(id=${product.productId})}">
 				<div class="product-card">
-	                <img th:src="@{${product.productImgPath}}" th:alt="商品画像" width="150" class="product-image">
+	                <img th:src="@{${product.productImgPath}}" th:alt="商品画像" hight="300" width="450" class="product-image">
 					<div class="product-details">
 						<p th:text="${product.productName}">商品名</p>
 						<p th:text="${product.companyName}">メーカー名</p>
@@ -23,6 +23,13 @@
             </a>
         </div>
     </div>
+	<div th:if="${activeSales!= null and !activeSales.isEmpty()}">
+				    <p style="color: red;">表示できるセール情報がありません</p>
+				</div>
+
+				<div th:each="activeSales : ${activeSaes}">
+				    <p>[[${activeSales.activeSalesName}]]</p>
+				</div>
 </main>
 
 </body>
