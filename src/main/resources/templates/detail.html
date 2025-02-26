@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::title}, ~{::body/content()})}">
+<head>
+    <meta charset="UTF-8">
+    <title>商品詳細｜[[${product.productName}]]</title>
+</head>
+
+<body>
+	<main>
+		<div class="main-container">
+			<div class="product-content">
+				<div class="product-detail-container">
+				<h2>商品詳細</h2>
+				<div class="detail-content">
+					<!-- 商品画像セクション -->	
+					<div class="image-section">
+						<img th:src="@{${product.productImgPath}}" alt="商品画像"class="product-image">
+					</div>
+					
+					<!-- 商品情報セクション -->
+					<div class="product-info">
+						<div class="info-content">
+							<div class="product-section">
+								<span>商品名：</span><span class="product-name" th:text="${product.productName}"></span>
+							</div>
+							
+							<div class="product-name-section">
+								<span class="info-label">メーカー名：</span><span class="company-name" th:text="${product.companyName}"></span>
+							</divclass="">
+							<!-- 価格表示 -->
+							<div class="price-section">
+							    <p class="price-row">
+							        <span class="info-label">税抜価格：</span>
+							        <!-- 割引ありの場合 -->
+							        <span th:if="${product.discountRate != null and product.discountRate > 0}" class="original-price">
+							            <del th:text="${'¥' + #numbers.formatInteger(product.price,1,'COMMA')}"></del>
+							        </span>
+							        <span th:if="${product.discountRate != null and product.discountRate > 0}" class="discounted-price">→</span>
+							        <!-- 常に表示するメイン価格 -->
+							        <span th:text="${'¥' + #numbers.formatInteger(
+							            (product.discountRate > 0 ? product.discountedPrice : product.price), 
+							            1, 
+							            'COMMA'
+							        )}"></span>
+							    </p>
+
+							    <p class="price-row">
+							        <span class="info-label">税込価格：</span>
+							        <!-- 割引ありの場合 -->
+							        <span th:if="${product.discountRate != null and product.discountRate > 0}" class="original-price">
+							            <del th:text="${'¥' + #numbers.formatInteger(product.includeTax,1,'COMMA')}"></del>
+							        </span>
+							        <span th:if="${product.discountRate != null and product.discountRate > 0}" class="discounted-price">→</span>
+							        <!-- 常に表示するメイン価格（修正箇所） -->
+							        <span th:text="${'¥' + #numbers.formatInteger(
+							            (product.discountRate > 0 ? product.discountedIncludeTax : product.includeTax), 
+							            1, 
+							            'COMMA'
+							        )}"></span>
+							    </p>
+
+							    <!-- 割引率表示 -->
+							    <div th:if="${product.discountRate != null and product.discountRate > 0}" class="discount-badge">
+							        <span th:text="${product.discountRate}+'% OFF'"></span>
+							    </div>
+							</div>
+						</div>
+			            <!-- 基本情報テーブル -->
+			            <table class="info-table">
+			                <tr>
+			                    <th>在庫数：</th>
+			                    <td>
+			                        <span th:text="${product.productStock}"></span>個
+			                        <span th:if="${product.productStock == 0}" class="stock-alert">※在庫切れ</span>
+			                    </td>
+			                </tr>
+			            </table>
+			            <!-- アクションボタン -->
+			            <div class="action-buttons">
+			                <a th:href="@{/}" class="back-btn">一覧に戻る</a>
+							<form th:if="${product.productStock > 0}" th:action="@{/single-purchase/{id}(id=${product.productId})}" method="post">
+							    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+							    <input type="hidden" name="quantity" value="1">
+							    <button type="submit" class="tanpin-btn">単品購入</button>
+							</form>
+						</div>
+					</div>
+		        </div>
+			</div>
+			<!-- 口コミセクション -->
+			<div class="review-container" th:if="${not #lists.isEmpty(reviews)}">
+			    <h2 class="review-title">ユーザーレビュー</h2>
+				<div class="review-flex">
+					<div th:if="${successMessage}" class="review-success">
+					    [[${successMessage}]]
+					</div>
+					<a th:href="@{/reviews/{id}(id=${product.productId})}" class="review-btn">口コミ投稿</a>
+				</div>
+				<div class="review-cards">
+				    <div th:each="review : ${reviews}" class="review-card">
+						<div class="review-content">
+					        <div class="review-header">
+					            <span class="user-name" th:text="'投稿者名：' + ${review.dummyUserName}"></span>
+								<p th:text="${#temporals.format(review.updatedAt, 'yyyy-MM-dd')}"></p>
+					        </div>
+					        <div class="star-rating">
+					            <span class="stars" th:style="'--rating: ' + ${review.rating}"></span>
+					        </div>
+					        <p class="comment" th:text="${review.comment} ? 
+					           'コメント：' + ${review.comment} : 'コメントはありません'"></p>
+							<div th:if="${reviews.empty}" class="no-reviews">
+							        まだレビューがありません。
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 新規追加するサイドバー -->
+		<aside class="detail-sidebar">
+			<h2>カート</h2>
+		    <div class="related-products">
+				<div class="related-product-item">
+		    	    <!-- 関連商品表示部分 -->
+		        	<div class="related-product">
+						<!-- 価格表示部分 -->
+						<p>税抜価格：<span id="subtotalExcludingTax">0</span>円</p>
+						<p>税込価格：<span id="subtotalIncludingTax">0</span>円</p>
+						<p>在庫数：<span th:text="${product.productStock}">0</span>個</p>
+						<div class="action-buttons">
+							<form th:action="@{/cart/add}" method="post">
+								<input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+								<input type="hidden" name="productId" th:value="${product.productId}">
+								<input type="hidden" name="quantity" id="selectedQuantityInput" value="1">
+									<div class="form-group">
+										<label>数量：</label>
+								        <select id="quantitySelector" 
+												class="form-control"
+								                th:data-original-price="${product.discountedPrice != null ? product.discountedPrice : product.price}"
+								                th:data-original-tax="${product.discountedIncludeTax != null ? product.discountedIncludeTax : product.includeTax}">
+								            <option th:each="i : ${#numbers.sequence(1, product.productStock)}" 
+								                    th:value="${i}" 
+								                    th:text="${i}"></option>
+								        </select>
+									</div>
+							    <button type="submit" class="tanpin-btn">カートに入れる</button>
+							</form>	
+						</div>
+		           </div>
+				</div>   
+			</div>   	
+		 </aside>
+		 <script th:inline="javascript">
+		 document.addEventListener('DOMContentLoaded', function() {
+		     const quantitySelector = document.getElementById('quantitySelector');
+		     const subtotalExcluding = document.getElementById('subtotalExcludingTax');
+		     const subtotalIncluding = document.getElementById('subtotalIncludingTax');
+		     const quantityInput = document.getElementById('selectedQuantityInput'); // 追加
+
+		     const unitPrice = parseInt(quantitySelector.dataset.originalPrice);
+		     const unitTax = parseInt(quantitySelector.dataset.originalTax);
+
+		     function calculatePrices() {
+		         const quantity = parseInt(quantitySelector.value);
+		         
+		         subtotalExcluding.textContent = (unitPrice * quantity).toLocaleString();
+		         subtotalIncluding.textContent = (unitTax * quantity).toLocaleString();
+		         quantityInput.value = quantity; // 追加: 隠しフィールドの値を更新
+		     }
+		     
+		     calculatePrices();
+		     quantitySelector.addEventListener('change', calculatePrices);
+		 });
+		 </script>
+				   
+		</div>
+	</main>
+</body>
+</html>

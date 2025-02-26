@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::title}, ~{::body/content()})}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>カート詳細</title>
+</head>
+
+<body>
+	<main>
+		<div class="container">
+			<h2>カート詳細</h2>
+			<div class="cart-items" th:if="${cartItems != null and !cartItems.isEmpty()}">
+				<!-- 各商品情報の繰り返し表示 -->
+				<div class="cart-item" th:each="cartItem : ${cartItems}">
+					<!-- 商品画像 -->
+					<img th:src="@{${cartItem.product.productImgPath}}" 
+						 alt="商品画像" 
+						 class="product-image">
+					<!-- 商品情報 -->
+					<div class="cart-info">
+						<!-- 商品ID（非表示で保持） -->
+						<input type="hidden" name="productId" th:value="${cartItem.product.productId}">
+						<!-- 商品名 -->
+						<div class= "info-item">
+							<span class="info-label">商品名：</span>
+							<span th:text="${cartItem.product.productName}"></span>
+						</div>
+						<!-- 数量 -->
+						<div class="info-item">
+							<span class="info-label">数量：</span>
+							<span th:text=${cartItem.quantity}></span>
+						</div>
+						<!-- 削除ボタン -->
+						<form method="post" th:action="@{/cart/remove}" onsubmit='return confirm("本当に削除しますか？");'>
+							<input type="hidden"name="productId"th:value="${cartItem.product.productId}">
+							<button type="submit" class="btn">削除</button>
+						</form>
+					</div>
+				</div>
+				<!-- 合計金額 -->
+				<div class="total-price">
+					<h3 class="fw-bold">カート内の合計金額</h3>
+					<p class="fs-4">
+						<span clss="label">合計：</span>
+						<span th:text="${#numbers.formatInteger(totalAmount, 3, 'COMMA')}"></span><span>円（税込）</span>
+					</p>
+				</div>
+				<!-- レジに進むボタン -->
+				<form th:action="@{/cart/purchase}" method="post">
+				    <button type="submit" class="tanpin-btn">購入手続きへ進む</button>
+				</form>
+			</div>
+			<!-- 空カート時の表示 -->
+			<div class="empty-cart" sec:authorize="isAuthenticated() " th:if="${cartItems == null or cartItems.isEmpty()}">
+				<p class="text-muted">カートに商品がありません</p>
+			</div>
+		</div>  
+	</main>
+</body>
+</html>

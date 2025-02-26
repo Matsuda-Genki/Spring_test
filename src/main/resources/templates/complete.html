@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::title}, ~{::body/content()})}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>購入完了</title>
+</head>
+
+<body>
+	<main>
+		<div class="container">
+			<div class="update-container">
+			<h2>購入完了</h2>
+				<div class="form-group">
+					<div th:each="item : ${order.items}">
+						<div class="image-section">
+							<img th:src="@{${item.productImgPath}}" alt="商品画像"class="product-image">
+						</div>
+						<div class="info-item">
+							<span class="info-label">商品名：</span>
+							<span class="info-value" id="product-name" th:text="${item.productName}"></span>
+						</div>
+						<div class="info-item">
+							<span class="info-label">個数：</span>
+							<span class="info-value" id="quantity" th:text="${item.quantity} + '個'"></span>
+						</div>
+					</div>
+					<div class="info-item">
+						<span class="info-label">合計金額：</span>
+						<span class="info-value" id="total-price" 
+							th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')} + '円（税込）'"></span>
+					</div>
+					<div class="info-item">
+						<span class="info-label">住所：</span>
+						<span class="info-value" id="address-value" th:text="${order.fullAddress}"></span>
+					</div>
+				</div>
+				<div class="button-container">
+					<a th:href="@{/}" class="back-btn">TOP画面に戻る</a>
+				</div>
+			</div>
+		</div>
+    </main>
+</body>
+
+</html>
