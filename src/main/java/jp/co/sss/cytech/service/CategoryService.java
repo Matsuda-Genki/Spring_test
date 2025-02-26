@@ -15,6 +15,6 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public List<CategoryEntity> getAllCategories() {
-        return categoryRepository.findAll(); // カテゴリをすべて取得
+        return categoryRepository.findAll();
     }
 }

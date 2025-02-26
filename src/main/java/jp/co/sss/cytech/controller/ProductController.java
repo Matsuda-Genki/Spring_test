@@ -26,18 +26,18 @@ public class ProductController {
 
     @Autowired
     public ProductController(ProductService productService,
-                            ReviewService reviewService) {
+                             ReviewService reviewService) {
         this.productService = productService;
         this.reviewService = reviewService;
     }
     
     @GetMapping("/products")
-    public String showProductList(
-            @RequestParam(name = "productName", required = false) String productName,
-            @RequestParam(name = "categoryId", required = false) Integer categoryId,
-            Model model) {
+    public String showProductList(@RequestParam(name = "productName", required = false) String productName,
+            					  @RequestParam(name = "categoryId", required = false) Integer categoryId,
+            					  Model model) {
 
-        List<ProductDTO> products = productService.findProductsByCategoryIdAndName(categoryId, productName);
+        List<ProductDTO> products;
+        
         if (categoryId != null && productName != null && !productName.isEmpty()) {
             // 両方の条件が指定されている場合
             products = productService.findProductsByCategoryIdAndName(categoryId, productName);
@@ -52,6 +52,9 @@ public class ProductController {
             products = productService.getAllProducts();
         }
 
+        // フィルタリングされた商品リストをモデルに追加
+        model.addAttribute("products", products);
+        
         // モデルにカテゴリー情報と商品情報を渡す
         model.addAttribute("productName", productName);
         model.addAttribute("categoryId", categoryId);
@@ -66,17 +69,15 @@ public class ProductController {
     		Model model,
     		@ModelAttribute("successMessage") String successMessage) {
         Optional<ProductDTO> product = productService.getProductById(productId);
+        
         if (product.isPresent()) {
         	List<ReviewDTO> reviews = reviewService.getReviewsByProductId(productId);
-        	
-            // デバッグ用ログ出力
-            System.out.println("取得した商品: " + product);
-            System.out.println("関連レビュー件数: " + reviews.size());
         	
             model.addAttribute("product", product.get());
             model.addAttribute("reviews", reviews);
             return "detail";
         }
+        
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "商品が見つかりません");
     }
 }

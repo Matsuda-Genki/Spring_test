@@ -25,7 +25,29 @@ public class ProductService {
         this.productRepository = productRepository;
         this.salesItemService = salesItemService;
     }
-
+    
+    // ProductEntity を直接取得するメソッド追加
+    public ProductEntity getProductEntityById(Integer productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("商品が見つかりません"));
+    }
+    
+    public ProductDTO findById(Integer productId) {
+        return productRepository.findById(productId)
+                .map(entity -> {
+                    ProductDTO dto = convertToDTO(entity);
+                    List<SalesItemEntity> activeSales = 
+                        salesItemService.getCurrentSalesForProduct(entity.getProductId());
+                    
+                    if (!activeSales.isEmpty()) {
+                        SalesItemEntity sale = activeSales.get(0);
+                        applyDiscount(dto, sale.getDiscountRate());
+                    }
+                    return dto;
+                })
+                .orElseThrow(() -> new RuntimeException("商品が見つかりません ID: " + productId));
+    }
+    
     public Optional<ProductDTO> getProductById(Integer id) {
         return productRepository.findById(id)
                 .map(entity -> {
@@ -76,7 +98,7 @@ public class ProductService {
     public List<ProductDTO> findProductsByCategoryIdAndName(Integer categoryId, String productName) {
         List<ProductEntity> productEntities = productRepository.findByCategory_CategoryIdAndProductNameContaining(categoryId, productName);
         return productEntities.stream()
-                .map(this::convertToDTO) // ProductEntityをProductDTOに変換
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
     
@@ -84,7 +106,7 @@ public class ProductService {
     public List<ProductDTO> findProductsByCategoryId(Integer categoryId) {
         List<ProductEntity> productEntities = productRepository.findByCategory_CategoryId(categoryId);
         return productEntities.stream()
-                .map(this::convertToDTO) // ProductEntityをProductDTOに変換
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -92,7 +114,7 @@ public class ProductService {
     public List<ProductDTO> findProductsByName(String productName) {
         List<ProductEntity> productEntities = productRepository.findByProductNameContaining(productName);
         return productEntities.stream()
-                .map(this::convertToDTO) // ProductEntityをProductDTOに変換
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -100,7 +122,7 @@ public class ProductService {
     public List<ProductDTO> getAllProducts() {
         List<ProductEntity> productEntities = productRepository.findAll();
         return productEntities.stream()
-                .map(this::convertToDTO) // ProductEntityをProductDTOに変換
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 }

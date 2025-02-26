@@ -18,9 +18,9 @@ public interface SalesItemRepository extends JpaRepository<SalesItemEntity, Inte
 
 	// 特定商品の現在有効なセールを検索
     @Query("SELECT s FROM SalesItemEntity s " +
-           "WHERE s.product.productId = :productId " + // 商品IDで絞り込み
-           "AND s.startMonth <= :currentDate " +        // 開始日 <= 今日
-           "AND s.endMonth >= :currentDate")            // 終了日 >= 今日
+           "WHERE s.product.productId = :productId " + 
+           "AND s.startMonth <= :currentDate " + 
+           "AND s.endMonth >= :currentDate")
     List<SalesItemEntity> findActiveSalesByProductId(
         @Param("productId") Integer productId,
         @Param("currentDate") LocalDate currentDate

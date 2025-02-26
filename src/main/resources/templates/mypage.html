@@ -11,6 +11,7 @@
 			<div class="update-container">
 				<h2>プロフィール管理</h2>
 				<form th:action="@{/mypage/update}" method="post" th:object="${profileForm}" class="display-field">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 					<div class="form-group">
 						<label>ユーザー名：</label>
 						<p class="" th:text="${profileForm.username}"></p>

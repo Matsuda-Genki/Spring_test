@@ -31,14 +31,14 @@ public class AuthController {
 
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login"; // login.html
+        return "login";
     }
 
     @PostMapping("/login")
     public String handleLogin(@RequestParam(required = true) String username, @RequestParam(required = true) String password, HttpSession session, Model model) {
     	try {
 	    	Optional<UserEntity> user = userRepository.findByUsername(username);
-	    	System.out.println("User retrieved from repository: " + user); // 追加: リポジトリからの結果を表示
+	    	System.out.println("User retrieved from repository: " + user);
 	    	if (user.isPresent()) {
 	            System.out.println("Found user: " + user.get().getUsername());
 	        } else {
@@ -46,65 +46,68 @@ public class AuthController {
 	        }
 	        
 	        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-	            session.setAttribute("user", user.get()); // セッションにユーザー情報を保存
+	        	// セッションにユーザー情報を保存
+	            session.setAttribute("user", user.get());
 	            session.setAttribute("SPRING_SECURITY_CONTEXT", user.get());
-	        	System.out.println("Received userName: " + username); // ログイン入力されたユーザー名を確認
-	            System.out.println("User logged in: " + user.get().getUsername()); // ログイン成功の確認
-	            return "redirect:/"; // ログイン後にホームページへリダイレクト
+
+	            return "redirect:/";
+
 	        } else {
-	            model.addAttribute("error", "Invalid username or password");
-	            return "login"; // ログイン失敗
+	        	model.addAttribute("error", "Invalid username or password");
+	            return "login";
 	        }
+	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("error", "Error occurred while retrieving user: " + e.getMessage());
-	        return "login"; // エラー発生時にもログインページに戻す
+	        return "login";
 	    }
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // セッション無効化
-        return "redirect:/login"; // ログインページにリダイレクト
+    	// セッション無効化
+        session.invalidate(); 
+        return "redirect:/login";
     }
     
-    /* 新規登録関連 */
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-    model.addAttribute("registrationForm", new UserRegistrationDTO());
-    return "register";
+    	
+    	model.addAttribute("registrationForm", new UserRegistrationDTO());
+
+    	return "register";
     }
 
     @PostMapping("/register")
-    public String processRegistration(
-    @Valid @ModelAttribute("registrationForm") 
-    UserRegistrationDTO dto,BindingResult result,RedirectAttributes redirectAttributes) {
+    public String processRegistration(@Valid @ModelAttribute("registrationForm") UserRegistrationDTO dto,
+    								  BindingResult result,RedirectAttributes redirectAttributes) {
 
-    // パスワード一致チェック
-    if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-    result.rejectValue("confirmPassword", "password.mismatch");
-    }
+    	// パスワード一致チェック
+    	if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+    		result.rejectValue("confirmPassword", "password.mismatch");
+    	}
 
-    // ユーザー名重複チェック
-    if (userRepository.existsByUsername(dto.getUsername())) {
-    result.rejectValue("username", "username.exists");
-    }
+	    // ユーザー名重複チェック
+	    if (userRepository.existsByUsername(dto.getUsername())) {
+	    result.rejectValue("username", "username.exists");
+	    }
 
-    // メールアドレス重複チェック
-    if (userRepository.existsByEmail(dto.getEmail())) {
-    result.rejectValue("email", "email.exists");
-    }
+	    // メールアドレス重複チェック
+	    if (userRepository.existsByEmail(dto.getEmail())) {
+	    result.rejectValue("email", "email.exists");
+	    }
 
-    if (result.hasErrors()) {
-    return "register";
-    }
+	    if (result.hasErrors()) {
+	    return "register";
+	    }
     
-    UserEntity newUser = convertToEntity(dto);
-    userRepository.save(newUser);
+	    UserEntity newUser = convertToEntity(dto);
+	    userRepository.save(newUser);
 
-    redirectAttributes.addFlashAttribute("successMessage", 
-    "登録が完了しました！ログインしてください");
-    return "redirect:/login";
+	    redirectAttributes.addFlashAttribute("successMessage", "登録が完了しました！ログインしてください");
+	    
+	    return "redirect:/login";
     }
     
     private UserEntity convertToEntity(UserRegistrationDTO dto) {
@@ -117,4 +120,3 @@ public class AuthController {
                 .build();
     }
 }
-

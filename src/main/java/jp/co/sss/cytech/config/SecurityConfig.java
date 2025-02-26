@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import jp.co.sss.cytech.service.UserDetailsServiceImpl;
 
@@ -24,7 +25,8 @@ public class SecurityConfig {
     
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // BCryptでパスワードをハッシュ化
+    	// BCryptでパスワードをハッシュ化
+        return new BCryptPasswordEncoder();
     }
     
     @Bean
@@ -35,9 +37,9 @@ public class SecurityConfig {
                 .anyRequest().authenticated() // 他のリクエストは認証が必要
             )
             .formLogin(login -> login
-                .loginPage("/login") // ログインページのURLを指定
-                .loginProcessingUrl("/login") // ログインフォームのPOSTリクエストを処理
-                .defaultSuccessUrl("/", true) // 明示的にリダイレクト先を指定
+                .loginPage("/login") 
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/", true)
                 .permitAll()
             )
             .logout(logout -> logout
@@ -46,10 +48,14 @@ public class SecurityConfig {
                 .permitAll()
             )
            	.sessionManagement(session -> session
-                .maximumSessions(1)  // 同時に1セッションまでしか許可しない設定（オプション）
-                .expiredUrl("/login?expired")  // セッションが期限切れの場合にリダイレクトするURL
+                .maximumSessions(1) 
+                .expiredUrl("/login?expired")
+            )
+           	.csrf(csrf -> csrf
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .ignoringRequestMatchers("/single-purchase/**")
             );
-        return http.build(); // セキュリティフィルターチェーンを返す
+        return http.build();
     }
     
     @Bean

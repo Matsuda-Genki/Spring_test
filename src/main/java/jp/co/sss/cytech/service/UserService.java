@@ -69,5 +69,4 @@ public class UserService {
                 .map(UserEntity::getEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("ユーザーが見つかりません"));
     }
-    
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::title}, ~{::body/content()})}">
+
 <head>
     <meta charset="UTF-8">
     <title>トップページ</title>
@@ -7,32 +8,23 @@
 
 <body>
     <main>
-        <section id="sale-items">
-            <h2>今月のセール</h2>
-            <div class="product-list">
-                <div th:each="sales : ${activeSales}" class="product-item">
+		<section id="sale-items">
+			<h2>今月のセール</h2>
+			<div class="product-list">
+				<div th:each="sales : ${activeSales}" class="product-item">
 					<a th:href="@{/details/{id}(id=${sales.product.productId})}">
 						<div class="product-card">
 							<img th:src="@{${sales.salesImgPath}}" th:alt="'Sale Image'" width="450" height="300" class="product-image">
 							<p th:text="${sales.saleName}" class="product-details"></p>
 						</div>
 					</a>
-                </div>
-            </div>
+				</div>
+			</div>
 			<div th:if="${activeSales.isEmpty()}">
-			    <p style="color: red;">表示できるセール情報がありません</p>
+				<p style="color: red;">表示できるセール情報がありません</p>
 			</div>
-
-			<div th:each="category : ${categories}">
-			    <p>[[${category.categoryName}]]</p>
-			</div>
-			
-        </section>
-		<div th:each="item : ${activeSales}">
-		    <p>[[${item.saleItemId}]] | [[${item.salesImgPath}]]</p>
-		</div>
+		</section>
     </main>
-
 </body>
 
 </html>

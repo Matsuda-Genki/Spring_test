@@ -19,11 +19,11 @@ public class CategoryController {
     // @ModelAttributeを使って、全てのビューにcategoriesを渡す
     @ModelAttribute("categories")
     public List<CategoryEntity> populateCategories() {
-        return categoryService.getAllCategories(); // サービスで取得したカテゴリリストを返す
+        return categoryService.getAllCategories();
     }
     
     @GetMapping("/otherPage")
     public String showOtherPage() {
-        return "otherPage"; // 他のページにもcategoriesが渡される
+        return "otherPage";
     }
 }

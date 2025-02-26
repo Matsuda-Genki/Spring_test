@@ -57,6 +57,7 @@ button {
 	display: block;
 	margin-bottom: 10px;
 }
+
 .login-btn {
 	background-color: darkcyan;
 }
@@ -68,6 +69,7 @@ button {
 .back-btn {
 	background-color: #6c757d;
 }
+
 button:hover {
 	opacity: 0.8;
 }

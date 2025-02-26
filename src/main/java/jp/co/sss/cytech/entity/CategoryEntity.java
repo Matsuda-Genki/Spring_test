@@ -22,6 +22,5 @@ public class CategoryEntity {
     private Integer categoryId;
     
     @Column(name = "category_name")
-    private String categoryName;  // カテゴリー名フィールドの追加
-    
+    private String categoryName; 
 }

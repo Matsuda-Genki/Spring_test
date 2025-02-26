@@ -66,7 +66,7 @@ nav ul li select {
 	font-size: 14px;
 }
 
-nav ul li form button[type="submit"] {
+.search-btn {
     background-color: darkcyan;
     color: white;
 	width: 100px;
@@ -78,8 +78,8 @@ nav ul li form button[type="submit"] {
     transition: opacity 0.3s;
 }
 
-nav ul li form button[type="submit"] :hover {
-    background-color: #2980b9; 
+.search-btn :hover {
+    background-color: rgb(255, 128, 255); 
 }
 
 .mypage-button {
@@ -106,7 +106,7 @@ nav ul li form button[type="submit"] :hover {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 40px; /* 検索フォームと同高 */
+    height: 40px;
     line-height: 1.2;
     font-size: 12px;
     font-weight: bold;
@@ -137,11 +137,11 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 250px; /* 商品同士の間隔 */
+    gap: 250px;
 }
 
 .product-item {
-    width: 250px; /* 商品カードの幅 */
+    width: 250px;
     display: flex;
     justify-content: center;
 }
@@ -158,7 +158,7 @@ h1 {
 }
 
 .product-card:hover {
-    transform: scale(1.05); /* ホバー時にカードを少し大きく */
+    transform: scale(1.05);
 }
 
 .product-image {
@@ -172,6 +172,10 @@ h1 {
     text-align: left;
 }
 
+.info-name {
+	text-align: left;
+}
+	
 .product-details p {
     margin: 5px 0;
     font-size: 0.9rem;
@@ -209,7 +213,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 220px; /* 商品同士の間隔 */
+    gap: 220px;
 	object-fit: cover;
 }
 
@@ -311,8 +315,6 @@ input {
 	margin-top: 20px;
 }
 
-
-
 /* Flexboxレイアウト */
 .detail-content {
     display: flex;
@@ -411,11 +413,17 @@ input {
     background-color: #2980b9; 
 }
 
+.form-control{
+	display: flex;
+	margin-bottom: 20px;;
+	text-align: left;
+}
+
 /*レビューセクション*/ 
 .review-container { 
 	flex-shrink: 0;
 	margin:20px 20px;
-	margin-top : 20px; /*商品詳細との間隔調整*/ 
+	margin-top : 20px;
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	width: 760px;
@@ -459,7 +467,7 @@ input {
 .star-rating {
     --star-size: 24px;
     --star-color: #ddd;
-    --active-color: rgb(255, 128, 0); /* 黄色 */
+    --active-color: rgb(255, 128, 0);
     display: inline-block;
     font-size: var(--star-size);
     line-height: 1;
@@ -488,6 +496,7 @@ input {
 .comment {  
 	color:#2d3436;  
 	line-height :1.6;  
+	text-align: left;
 }  
 
 .no-reviews {  
@@ -529,13 +538,13 @@ input {
 .review-cards {
 	margin:10px auto;
 }
-   /* メインコンテンツとサイドバーのレイアウト */
 
+   /* メインコンテンツとサイドバーのレイアウト */
 .main-container {
 	display: flex;
     gap: 30px;
     max-width: 1200px;
-    margin: 20px auto; /* 上下マージンと自動左右マージンで中央寄せ */
+    margin: 20px auto;
     padding: 0 20px;
 }
 
@@ -555,8 +564,8 @@ input {
 }
  /* サイドバースタイル */
  .detail-sidebar {
-	width: 300px; /* サイドバーの固定幅 */
-	flex-shrink: 0; /* 縮小を防止 */
+	width: 300px;
+	flex-shrink: 0;
  	background: #f8f9fa;
     margin: 20px;
 	padding: 0 20px;
@@ -565,4 +574,18 @@ input {
     height: fit-content;
     position: sticky;
     top: 20px;
+}
+
+.related-product-flex{
+	display:flex;
+}
+
+textarea {
+	width: 98%;
+}
+
+/*購入詳細*/
+.radio-btn {
+	display:flex;
+	margin-left: 0;
 }

@@ -16,11 +16,9 @@ public class ProductDTO {
     private Integer includeTax;
     private String productImgPath;
     private Integer productStock;
-    
     private Integer discountRate;
     private Integer discountedPrice;
     private Integer discountedIncludeTax;
-    
     private Integer categoryId; 
     private Integer companyId;
     private String companyName;
@@ -41,9 +39,7 @@ public class ProductDTO {
         this.price = price;
         this.includeTax = includeTax;
         this.productImgPath = productImgPath;
-        
         this.categoryId = categoryId;
-        
         this.companyId = companyId;
         this.companyName = companyName;
     }

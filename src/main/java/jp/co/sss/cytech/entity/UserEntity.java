@@ -22,8 +22,8 @@ import lombok.Setter;
 @Table(name = "users")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // ここを追加
-@AllArgsConstructor // 全フィールドのコンストラクタも必要なら追加
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 @Builder
 public class UserEntity {
 
@@ -47,7 +47,6 @@ public class UserEntity {
     @Column(name = "user_address", nullable = true)
     private String userAddress;
     
-    // 監査用フィールド（任意）
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

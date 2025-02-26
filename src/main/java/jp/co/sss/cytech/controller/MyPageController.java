@@ -25,16 +25,15 @@ public class MyPageController {
 
 	@GetMapping("")
 	public String myPage(Model model) {
-	String username = getCurrentUsername();
-	model.addAttribute("profileForm", userService.getProfile(username));
-	return "mypage";
+		String username = getCurrentUsername();
+		model.addAttribute("profileForm", userService.getProfile(username));
+		return "mypage";
 	}
 
 	@PostMapping("/update")
-	public String updateProfile(
-	@Valid @ModelAttribute("profileForm") UserProfileDTO dto,
-	BindingResult result,
-	RedirectAttributes redirectAttributes) {
+	public String updateProfile(@Valid @ModelAttribute("profileForm") UserProfileDTO dto,
+								BindingResult result,
+								RedirectAttributes redirectAttributes) {
 	
 		if (result.hasErrors()) {
 			return "mypage";
@@ -42,6 +41,7 @@ public class MyPageController {
 	
 		userService.updateProfile(getCurrentUsername(), dto);
 		redirectAttributes.addFlashAttribute("successMessage", "プロフィールを更新しました");
+		
 		return "redirect:/mypage";
 	}
 

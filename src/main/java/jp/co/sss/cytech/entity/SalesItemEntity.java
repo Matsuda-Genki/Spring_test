@@ -44,5 +44,4 @@ public class SalesItemEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private ProductEntity product;
-    
 }
